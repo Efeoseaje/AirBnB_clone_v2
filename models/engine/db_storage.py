@@ -12,6 +12,7 @@ from models.place import Place
 from models.review import Review
 from models.amenity import Amenity
 
+
 class DBStorage:
     """ create tables in environmental"""
     __engine = None
@@ -81,4 +82,3 @@ class DBStorage:
         """ calls remove()
         """
         self.__session.close()
-        
