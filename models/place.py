@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """This is the place class"""
 import models
-from models.base_model import BaseModel, Base
+from AirBnB_clone_v2.models.base_model1 import BaseModel, Base
 from os import getenv
 import sqlalchemy
 from sqlalchemy import Column, String, Integer, Float, Table, ForeignKey

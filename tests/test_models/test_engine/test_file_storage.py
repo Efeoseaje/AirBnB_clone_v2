@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """ Module for testing file storage"""
 import unittest
-from models.base_model import BaseModel
+from AirBnB_clone_v2.models.base_model1 import BaseModel
 from models import storage
 import os
 
