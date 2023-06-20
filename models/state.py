@@ -6,7 +6,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 from models.city import City
 import models
-
+from os import getenv
 
 class State(BaseModel, Base):
     """ State class """
@@ -25,4 +25,3 @@ class State(BaseModel, Base):
             all_cities = models.storage.all(City)
             return [city for city in all_cities.values()
                     if city.state_id == self.id]
-
