@@ -12,7 +12,7 @@ class FileStorage:
         """Returns the list of objects of one type of class"""
         if not cls:
             return self.__objects
-        elif isinstance(cls, str):
+        elif type(cls) == str:
             return {k: v for k, v in self.__objects.items() 
                     if v.__class__.__name__ == cls}
         else:
