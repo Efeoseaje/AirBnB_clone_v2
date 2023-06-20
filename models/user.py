@@ -7,6 +7,7 @@ from models.place import Place
 from models.review import Review
 from sqlalchemy.ext.declarative import declarative_base
 
+
 class User(BaseModel, Base):
     """This class defines a user by various attributes"""
     __tablename__ = "users"
