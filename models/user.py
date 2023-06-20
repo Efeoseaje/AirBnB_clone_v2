@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """This module defines a class User"""
-from AirBnB_clone_v2.models.base_model1 import BaseModel, Base
+from AirBnB_clone_v2.models.base_model import BaseModel, Base
 from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
 from models.place import Place

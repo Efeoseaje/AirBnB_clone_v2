@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """ """
-from AirBnB_clone_v2.models.base_model1 import BaseModel
+from AirBnB_clone_v2.models.base_model import BaseModel
 import unittest
 import datetime
 from uuid import UUID
