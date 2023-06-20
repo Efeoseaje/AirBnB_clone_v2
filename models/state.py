@@ -7,12 +7,14 @@ from sqlalchemy.orm import relationship
 from models.city import City
 import models
 
+
 class State(BaseModel, Base):
     """ State class """
     __tablename__ = "states"
     name = Column(String(128), nullable=False)
     cities = relationship("City", cascade='all, delete, delete-orphan',
-                        backref="state")
+                          backref="state")
+
     @property
     def cities(self):
         all_cities = models.storage.all(City)

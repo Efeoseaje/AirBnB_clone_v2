@@ -6,6 +6,7 @@ from sqlalchemy import Column, String
 from sqlalchemy import ForeignKey
 from models.place import Place
 
+
 class City(BaseModel, Base):
     """ The city class, contains state ID and name """
     __tablename__ = "cities"
