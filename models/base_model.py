@@ -5,16 +5,30 @@ from datetime import datetime
 from sqlalchemy import Column, String, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 import models
+import os
 
 Base = declarative_base()
+storage_type = os.getenv('HBNB_TYPE_STORAGE')
 
 
 class BaseModel:
     """A base class for all hbnb models"""
-
-    id = Column(String(60), nullable=False, primary_key=True)
-    created_at = Column(DateTime, nullable=False, default=datetime.utcnow())
-    updated_at = Column(DateTime, nullable=False, default=datetime.utcnow())
+    if storage_type == 'db':
+        id = Column(String(60), nullable=False, primary_key=True)
+        created_at = Column(
+                DateTime,
+                nullable=False,
+                default=datetime.utcnow()
+                )
+        updated_at = Column(
+                DateTime,
+                nullable=False,
+                default=datetime.utcnow()
+                )
+    else:
+        id = str(uuid.uuid4())
+        created_at = datetime.now()
+        updated_at = datetime.now()
 
     def __init__(self, *args, **kwargs):
         """Instatntiates a new model"""
@@ -48,12 +62,15 @@ class BaseModel:
     def to_dict(self):
         """Convert instance into dict format"""
         dict = self.__dict__.copy()
-        dict['created_at'] = self.created_at.isoformat()
-        dict['updated_at'] = self.updated_at.isoformat()
-        # the __class__ key is needed to recreate the object
-        dict['__class__'] = self.__class__.__name__
-        if '_sa_instance_state' in dict.keys():
-            del dict['_sa_instance_state']
+        for key, value in dict.items():
+            if key == '_sa_instance_state':
+                del dict[key]
+            if key == 'created_at':
+                dict[key] = self.created_at.isoformat()
+            if key == 'updated_at':
+                dict[key] = self.updated_at.isoformat()
+            dict['__class__'] = self.__class__.__name__
+        print (dict)
         return dict
 
     def delete(self):
