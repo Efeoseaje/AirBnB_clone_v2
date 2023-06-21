@@ -8,12 +8,17 @@ from models.city import City
 import models
 from os import getenv
 
+
 class State(BaseModel, Base):
     """ State class """
     __tablename__ = "states"
+
     name = Column(String(128), nullable=False)
-    cities = relationship("City", cascade='all, delete, delete-orphan',
-                          backref="state")
+    cities = relationship(
+            "City",
+            cascade='all, delete, delete-orphan',
+            backref="state"
+            )
 
     def __init__(self, *args, **kwargs):
         """initializes state"""
@@ -21,6 +26,11 @@ class State(BaseModel, Base):
 
     @property
     def cities(self):
+        import models
+
+        cities = []
         all_cities = models.storage.all(City)
-        return [city for city in all_cities.values()
-                if city.state_id == self.id]
+        for city in all_cities.values():
+            if city.state_id == self.id:
+                cities.append(city)
+        return (cities)

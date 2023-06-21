@@ -11,14 +11,6 @@ from models.user import User
 from models.place import Place
 from models.review import Review
 from models.amenity import Amenity
-my_class = {
-    'Amenity': Amenity,
-    'City': City,
-    'Place': Place,
-    'State': State,
-    'Review': Review,
-    'User': User
-    }
 
 
 class DBStorage:
@@ -37,26 +29,27 @@ class DBStorage:
                                       .format(user, passwd, host, db),
                                       pool_pre_ping=True)
 
-        if getenv('HBNB_ENV') == 'test':
+        if env == 'test':
             Base.metadata.drop_all(self.__engine)
+
+        Base.metadata.create_all(self.__engine)
+        self.__session = scoped_session(
+                sessionmaker(bind=self.__engine, expire_on_commit=False)
+                )
 
     def all(self, cls=None):
         """returns a dictionary
         Return:
             returns a dictionary of __object
         """
-        if not self.__session:
-            self.reload()
-        objects = {}
-        if type(cls) == str:
-            cls = my_class.get(cls, None)
+        classes = ['Amenity', 'City', 'Place', 'State', 'Review', 'User']
         if cls:
-            for obj in self.__session.query(cls):
-                objects[obj.__class__.__name__ + '.' + obj.id] = obj
-        else:
-            for cls in my_class.values():
-                for obj in self.__session.query(cls):
-                    objects[obj.__class__.__name__ + '.' + obj.id] = obj
+            classes = [cls]
+        objects = {}
+        for cls in classes:
+            for obj in self.__session.query(cls).all():
+                key = "{}.{}".formate(obj.__class__.__name__, obj.id)
+                objects[key] = obj
         return objects
 
     def new(self, obj):
@@ -79,9 +72,9 @@ class DBStorage:
         """configuration
         """
         Base.metadata.create_all(self.__engine)
-        sec = sessionmaker(bind=self.__engine, expire_on_commit=False)
-        Session = scoped_session(sec)
-        self.__session = Session()
+        self.__session = scoped_session(
+                sessionmaker(bind=self.__engine, expire_on_commit=False)
+                )
 
     def close(self):
         """ calls remove()
