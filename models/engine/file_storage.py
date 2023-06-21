@@ -55,11 +55,12 @@ class FileStorage:
             pass
 
     def delete(self, obj=None):
-        """ delete an existing element
-        """
-        if obj:
-            key = "{}.{}".format(type(obj).__name__, obj.id)
-            del self.__objects[key]
+        ''' deletes obj from __objects if it's inside else do nothing '''
+        if obj is not None:
+            obj_keys = FileStorage.__objects.keys()
+            obj_key = f'{obj.__class__.__name__}.{obj.id}'
+            if obj_key in obj_keys:
+                del FileStorage.__objects[obj_key]
 
     def close(self):
         """ calls reload()
