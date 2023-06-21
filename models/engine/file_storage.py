@@ -34,7 +34,7 @@ class FileStorage:
 
     def reload(self):
         """Loads storage dictionary from file"""
-        from AirBnB_clone_v2.models.base_model import BaseModel
+        from models.base_model import BaseModel
         from models.user import User
         from models.place import Place
         from models.state import State
